@@ -1,23 +1,31 @@
 const container = document.querySelector("#container");
 const newGridButton = document.querySelector("#newGrid");
+const rainbowModeButton = document.querySelector("#rainbowMode");
 const gridCell = document.createElement("div");
 let planeDimensions =   16;
+let rainbowMode = false;
 
 function createGrid (){
-    const gridCellWidth = container.clientWidth/planeDimensions - 2;
-    const gridCellHeight = container.clientHeight/planeDimensions -2;
+    const gridCellWidth = container.clientWidth/planeDimensions ;
+    const gridCellHeight = container.clientHeight/planeDimensions;
     for(let i = 0; i < planeDimensions*planeDimensions;i++){
         const gridCell = document.createElement("div");
         gridCell.setAttribute("class","gridCell");
-        gridCell.setAttribute("style",`height:${gridCellHeight}px; width:${gridCellWidth}px; border: 0.5px solid black;`);
+        gridCell.setAttribute("style",`height:${gridCellHeight}px; width:${gridCellWidth}px; opacity:10%;`);
         container.appendChild(gridCell);
     }
     container.addEventListener("mouseover",(event) => {
         let target = event.target;
-        console.log(target.className);
-        console.log("smth happened");
+
         if (target.className === "gridCell"){
-            target.style.backgroundColor = 'red';
+            if(rainbowMode){
+                target.style.backgroundColor = `rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255})`;
+                target.style.opacity-= "-0.1";
+            }else{
+                target.style.backgroundColor = 'red';
+                target.style.opacity-= "-0.1";
+            }
+
         }
     })
 }
@@ -40,5 +48,13 @@ newGridButton.addEventListener("click",() =>{
         createGrid();
     }else{
         alert("hell nah bruh");
+    }
+})
+
+rainbowModeButton.addEventListener("click",() =>{
+    if(rainbowMode){
+        rainbowMode = false;
+    }else{
+        rainbowMode = true;
     }
 })
